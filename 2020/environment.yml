@@ -1,0 +1,10 @@
+name: advent-of-code-2020
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - black=19.3b0
+  - make=4.2.1
+  - mypy=0.711
+  - python=3.7.3
+  - pip=19.1.1
