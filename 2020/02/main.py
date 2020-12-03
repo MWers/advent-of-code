@@ -25,7 +25,7 @@ with open(args.input_file) as f:
 good_passwords = 0
 for (lower_bound, upper_bound, letter, password) in input_data:
     occurrences = password.count(letter)
-    if occurrences >= int(lower_bound) and occurrences <= int(upper_bound):
+    if int(lower_bound) <= occurrences <= int(upper_bound):
         good_passwords += 1
 
 print(f'Part 1 - Good Passwords: {good_passwords}')
