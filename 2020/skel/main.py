@@ -9,4 +9,5 @@ args = parser.parse_args()
 
 input_data: List = []
 with open(args.input_file) as f:
-    input_data = [int(line) for line in f.readlines()]
+    input_data = [line for line in f.read().splitlines()]
+
