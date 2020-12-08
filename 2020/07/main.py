@@ -1,6 +1,6 @@
 import argparse
 import re
-from typing import List
+from typing import Dict, List, Set
 
 parser = argparse.ArgumentParser(description='Run an Advent of Code program')
 parser.add_argument(
@@ -20,20 +20,6 @@ def parse_bag(description):
     return (color, count)
 
 
-parents = {}
-for line in input_data:
-    node_str, children_str = line.split(' contain ')
-    node = parse_bag(node_str)
-
-    # print(f'node: {node}')
-
-    children = [parse_bag(child_str) for child_str in children_str.split(', ')]
-    for child in children:
-        if child[0] not in parents:
-            parents[child[0]] = set()
-        parents[child[0]].add(node[0])
-
-
 def get_children(color, parents):
     children = set()
     if color in parents:
@@ -46,14 +32,34 @@ def get_children(color, parents):
         return children
 
 
+def get_bag_count(color, nodes):
+    bag_counts = 0
+    if color in nodes:
+        children = nodes[color]
+        for child in children:
+            bag_counts += child[1]
+            bag_counts += child[1] * get_bag_count(child[0], nodes)
+    return bag_counts
+
+
+parents: Dict[str, Set] = {}
+for line in input_data:
+    node_str, children_str = line.split(' contain ')
+    node = parse_bag(node_str)
+
+    children = [parse_bag(child_str) for child_str in children_str.split(', ')]
+    for child in children:
+        if child[0] not in parents:
+            parents[child[0]] = set()
+        parents[child[0]].add(node[0])
+
+
 print(f'Part 1: {len(get_children("shiny gold", parents))}')
 
 nodes = {}
 for line in input_data:
     node_str, children_str = line.split(' contain ')
     node = parse_bag(node_str)
-
-    # print(f'node: {node}')
 
     children = [
         bag
@@ -63,18 +69,6 @@ for line in input_data:
         if bag != (None, None)
     ]
     nodes[node[0]] = children
-
-print(f'nodes: {nodes}')
-
-
-def get_bag_count(color, nodes):
-    bag_counts = 0
-    if color in nodes:
-        children = nodes[color]
-        for child in children:
-            bag_counts += child[1]
-            bag_counts += child[1] * get_bag_count(child[0], nodes)
-    return bag_counts
 
 
 print(f'Part 2: {get_bag_count("shiny gold", nodes)}')
