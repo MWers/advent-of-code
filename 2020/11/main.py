@@ -85,6 +85,11 @@ def get_visible(x, y, grid):
     return neighbors
 
 
+# TODO
+def get_visible_for_direction(x, y, grid, dx, dy):
+    pass
+
+
 # print(grid_to_str(grid))
 # print()
 # print(grid_to_str(update_grid_for_neighbors(grid)))
