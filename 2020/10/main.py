@@ -37,7 +37,7 @@ differences_product = voltage_differences[1] * voltage_differences[3]
 print(f'Part 1: {differences_product}')
 
 
-def get_adapter_tree(input_data):
+def get_adapter_graph(input_data):
     cursor = 0
     adapter_tree = {}
     for index, adapter in enumerate(input_data):
@@ -50,58 +50,28 @@ def get_adapter_tree(input_data):
     return adapter_tree
 
 
+# This is for recursive path counting
+# It's O(n!) and doesn't work for this large graph :-(
 def get_path_count(node, tree):
-    # print(f'{node} ', end='')
     # Are we on a leaf?
     if node in tree and not tree[node]:
-        # print('')
         return 1
 
     return sum([get_path_count(child, tree) for child in tree[node]])
 
 
-# https://stackoverflow.com/posts/35531270/revisions
-def find_simple_paths(graph, start, end):
-    visited = set()
-    visited.add(start)
+# Manually figured this out by looking at grouping and
+# determining their impact on total number of paths
+adapter_tree = get_adapter_graph(input_data)
+for k in sorted(adapter_tree.keys()):
+    print(f'{k}:\t{adapter_tree[k]}')
+print(f'Part 2 (manual): {pow(2, 2) * pow(4, 2) * pow(7, 14)}')
 
-    nodestack = list()
-    indexstack = list()
-    current = start
-    i = 0
-
-    while True:
-        # get a list of the neighbors of the current node
-        neighbors = graph[current]
-
-        # find the next unvisited neighbor of this node, if any
-        while i < len(neighbors) and neighbors[i] in visited:
-            i += 1
-
-        if i >= len(neighbors):
-            # we've reached the last neighbor of this node, backtrack
-            visited.remove(current)
-            if len(nodestack) < 1:
-                break  # can't backtrack, stop!
-            current = nodestack.pop()
-            i = indexstack.pop()
-        elif neighbors[i] == end:
-            # yay, we found the target node! let the caller process the path
-            yield nodestack + [current, end]
-            i += 1
-        else:
-            # push current node and index onto stacks, switch to neighbor
-            nodestack.append(current)
-            indexstack.append(i + 1)
-            visited.add(neighbors[i])
-            current = neighbors[i]
-            i = 0
+# Let's try to do this programatically
 
 
-adapter_tree = get_adapter_tree(input_data)
-# print(adapter_tree)
-path_count = len([path for path in find_simple_paths(adapter_tree, input_data[0], input_data[-1])])
-print(f'Part 2: {path_count}')
+# path_count = len([path for path in find_simple_paths(adapter_tree, input_data[0], input_data[-1])])
+# print(f'Part 2: {path_count}')
 
 
 # This works but it's terribly slow - O(n!)
