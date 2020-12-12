@@ -1,10 +1,21 @@
 .PHONY: all
-all:
+all: full
+
+.PHONY: full
+full:
 	@python main.py input-full.txt
+
+.PHONY: full-debug
+full-debug:
+	@python main.py --debug input-full.txt
 
 .PHONY: sample
 sample:
 	@python main.py input-sample.txt
+
+.PHONY: sample-debug
+sample-debug:
+	@python main.py --debug input-sample.txt
 
 .PHONY: format
 format:

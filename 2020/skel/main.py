@@ -5,6 +5,9 @@ parser = argparse.ArgumentParser(description='Run an Advent of Code program')
 parser.add_argument(
     'input_file', type=str, help='the file containing input data'
 )
+parser.add_argument(
+    '--debug', action='store_true', help='print debug messages'
+)
 args = parser.parse_args()
 
 input_data: List = []
