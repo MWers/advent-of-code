@@ -10,6 +10,12 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+
+def debug(log):
+    if args.debug:
+        print(log)
+
+
 input_data: List = []
 with open(args.input_file) as f:
     input_data = [line for line in f.read().splitlines()]
