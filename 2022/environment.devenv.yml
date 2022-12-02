@@ -1,0 +1,13 @@
+name: advent-of-code-2022
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - autoflake=1.7.5
+  - black=22.10.0
+  - flake8=6.0.0
+  - isort=5.10.1
+  - make=4.3
+  - mypy=0.991
+  - pytest=7.2.0
+  - python=3.11.0
